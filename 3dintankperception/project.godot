@@ -15,10 +15,6 @@ run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
-[dotnet]
-
-project/assembly_name="3dInTankPerception"
-
 [input]
 
 move_left={
