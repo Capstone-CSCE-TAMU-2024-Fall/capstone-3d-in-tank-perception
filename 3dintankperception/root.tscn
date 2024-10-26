@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://8d80gka37gim"]
 
-[ext_resource type="Script" path="res://M27.cs" id="1_jrn3n"]
+[ext_resource type="Script" path="res://character_body_3d.gd" id="1_ysea8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6fdt1"]
 
@@ -20,25 +20,27 @@ size = Vector3(1, 1.39648, 1)
 
 [node name="Root" type="Node3D"]
 
-[node name="m27" type="CharacterBody3D" parent="."]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.62731, 0)
-script = ExtResource("1_jrn3n")
+script = ExtResource("1_ysea8")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="m27"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_6fdt1")
 
-[node name="LeftTread" type="MeshInstance3D" parent="m27"]
+[node name="SpringArm3D" type="SpringArm3D" parent="CharacterBody3D"]
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.977736, 0.20984, 0, -0.20984, 0.977736, 0, 0.7156, 1.72534)
+
+[node name="LeftTread" type="MeshInstance3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, -4.37114e-08, -4.37114e-08, 1.91069e-15, -1, 0, 1, 1.91069e-15, -0.75, 0, 0)
 visible = false
 mesh = SubResource("CylinderMesh_3dnqm")
 
-[node name="RightTread" type="MeshInstance3D" parent="m27"]
+[node name="RightTread" type="MeshInstance3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, -4.37114e-08, -4.37114e-08, 1.91069e-15, -1, 0, 1, 1.91069e-15, 0.75, 0, 0)
 visible = false
 mesh = SubResource("CylinderMesh_3dnqm")
-
-[node name="Camera3D" type="Camera3D" parent="m27"]
-transform = Transform3D(1, 0, 0, 0, 0.977736, 0.20984, 0, -0.20984, 0.977736, 0, 0.7156, 0.72534)
 
 [node name="Plane" type="MeshInstance3D" parent="."]
 transform = Transform3D(13.47, 0, 0, 0, 13.47, 0, 0, 0, 13.47, 0, 0, 0)
