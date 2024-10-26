@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "a0wH0R7JIpw=",
+  "success": true,
+  "projectFilePath": "/Users/yukijanvier/school/capstone-3d-in-tank-perception/test/test.csproj",
+  "expectedPackageFiles": [
+    "/Users/yukijanvier/.nuget/packages/godot.sourcegenerators/4.3.0/godot.sourcegenerators.4.3.0.nupkg.sha512",
+    "/Users/yukijanvier/.nuget/packages/godotsharp/4.3.0/godotsharp.4.3.0.nupkg.sha512",
+    "/Users/yukijanvier/.nuget/packages/godotsharpeditor/4.3.0/godotsharpeditor.4.3.0.nupkg.sha512",
+    "/Users/yukijanvier/.nuget/packages/microsoft.netcore.app.ref/6.0.35/microsoft.netcore.app.ref.6.0.35.nupkg.sha512",
+    "/Users/yukijanvier/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.35/microsoft.aspnetcore.app.ref.6.0.35.nupkg.sha512"
+  ],
+  "logs": []
+}
