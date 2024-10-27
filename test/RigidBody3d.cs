@@ -13,6 +13,9 @@ public partial class RigidBody3d : RigidBody3D
 	private float rotationSpeed = 30.0f;
 	private float maxTiltAngle = Mathf.Pi / 4;
 
+	// label information
+	private Label _infoLabel;
+
 	public override void _Ready()
 	{
 		// Find the cameras in the scene
@@ -22,6 +25,10 @@ public partial class RigidBody3d : RigidBody3D
 		// Set initial active camera (disable first-person at start)
 		thirdPersonCamera.Current = true;
 		firstPersonCamera.Current = false;
+
+		// Grab label
+		_infoLabel = GetNode<Label>("CanvasLayer/infoLabel");
+		GD.Print("Label found: " + (_infoLabel != null));
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -33,10 +40,10 @@ public partial class RigidBody3d : RigidBody3D
 		}
 
 		// Check if the tank is tipped over
-		if (!IsUpright())
-		{
-			return;
-		}
+		//if (!IsUpright())
+		//{
+			//return;
+		//}
 
 		// Movement logic as before
 		Vector3 forwardDir = -GlobalTransform.Basis.Z.Normalized();
@@ -64,13 +71,28 @@ public partial class RigidBody3d : RigidBody3D
 			ApplyCentralForce(rightDir * rotationSpeed);
 			ApplyCentralForce(-forwardDir * rotationSpeed);
 		}
+
+		// Grab info label and update dynamically
+		if (_infoLabel == null)
+		{
+			_infoLabel = GetNode<Label>("CanvasLayer/infoLabel");
+			if (_infoLabel == null)
+			{
+				GD.PrintErr("Unable to find Label node!");
+				return;
+			}
+		}
+		UpdateInfoLabel();
+		GD.Print("Label text: " + _infoLabel.Text);
 	}
 
-	private bool IsUpright()
+	private float IsUpright()
 	{
-		Vector3 upDir = GlobalTransform.Basis.Y.Normalized();
-		float angleBetween = upDir.AngleTo(Vector3.Up);
-		return angleBetween < maxTiltAngle;
+		Vector3 objectUp = GlobalTransform.Basis.Y.Normalized();
+		Vector3 worldUp = Vector3.Up;
+		
+		float angle = Mathf.Acos(objectUp.Dot(worldUp));
+		return Mathf.RadToDeg(angle);
 	}
 
 	private void ToggleCamera()
@@ -80,5 +102,22 @@ public partial class RigidBody3d : RigidBody3D
 		// Switch cameras
 		thirdPersonCamera.Current = isThirdPersonActive;
 		firstPersonCamera.Current = !isThirdPersonActive;
+	}
+
+	private void UpdateInfoLabel()
+	{
+		if (_infoLabel == null)
+		{
+			GD.PrintErr("_infoLabel is null in UpdateInfoLabel()");
+			return;
+		}
+		float angleRelativeToGround = IsUpright();
+		bool isFlipped = angleRelativeToGround > 45;
+		Vector3 position = GlobalTransform.Origin;
+		string infoText = $"Position: ({position.X:F2}, {position.Y:F2}, {position.Z:F2})\n" +
+					  $"Angle Relative to Ground: {angleRelativeToGround}\n" +
+					  $"Flipped Over: {isFlipped}\n"; 
+
+		_infoLabel.Text = infoText;
 	}
 }

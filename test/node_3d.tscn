@@ -61,6 +61,12 @@ shape = SubResource("BoxShape3D_5irpr")
 [node name="Camera3D2" type="Camera3D" parent="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.60519, 0)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="RigidBody3D"]
+
+[node name="infoLabel" type="Label" parent="RigidBody3D/CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.840425, 0.541928, 0, -0.541928, 0.840425, 0, 37.2962, 18.0821)
 
