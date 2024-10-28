@@ -1,5 +1,8 @@
 using Godot;
 using System;
+using System.IO;
+using System.Text;
+
 
 public partial class RigidBody3d : RigidBody3D
 {
@@ -15,7 +18,11 @@ public partial class RigidBody3d : RigidBody3D
 
 	// label information
 	private Label _infoLabel;
-
+	
+	// Writing path
+	private const string LOG_FILE_PATH = "user://tank_log.csv";
+	private StreamWriter logWriter;
+	
 	public override void _Ready()
 	{
 		// Find the cameras in the scene
@@ -29,6 +36,7 @@ public partial class RigidBody3d : RigidBody3D
 		// Grab label
 		_infoLabel = GetNode<Label>("CanvasLayer/infoLabel");
 		GD.Print("Label found: " + (_infoLabel != null));
+		InitializeLogging();
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -84,6 +92,7 @@ public partial class RigidBody3d : RigidBody3D
 		}
 		UpdateInfoLabel();
 		GD.Print("Label text: " + _infoLabel.Text);
+		LogData();
 	}
 
 	private float IsUpright()
@@ -113,11 +122,65 @@ public partial class RigidBody3d : RigidBody3D
 		}
 		float angleRelativeToGround = IsUpright();
 		bool isFlipped = angleRelativeToGround > 45;
+		Vector3 velocity = LinearVelocity;
 		Vector3 position = GlobalTransform.Origin;
 		string infoText = $"Position: ({position.X:F2}, {position.Y:F2}, {position.Z:F2})\n" +
 					  $"Angle Relative to Ground: {angleRelativeToGround}\n" +
-					  $"Flipped Over: {isFlipped}\n"; 
-
+					  $"Flipped Over: {isFlipped}\n" + 
+					  $"Velocity: ({velocity.X:F2}, {velocity.Y:F2}, {velocity.Z:F2})\n"; 
+		
 		_infoLabel.Text = infoText;
+	}
+	
+	private void InitializeLogging()
+	{
+		try
+		{
+			logWriter = new StreamWriter(ProjectSettings.GlobalizePath(LOG_FILE_PATH), true);
+			logWriter.WriteLine("Timestamp,Position_X,Position_Y,Position_Z,Angle,IsFlipped,Velocity_X,Velocity_Y,Velocity_Z");
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"Failed to initialize logging: {e.Message}");
+		}
+	}
+	
+	private void LogData()
+	{
+		if (logWriter == null) return;
+
+		float angleRelativeToGround = IsUpright();
+		bool isFlipped = angleRelativeToGround > 45;
+		Vector3 velocity = LinearVelocity;
+		Vector3 position = GlobalTransform.Origin;
+
+		string logEntry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}," +
+						  $"{position.X:F2},{position.Y:F2},{position.Z:F2}," +
+						  $"{angleRelativeToGround:F2},{isFlipped}," +
+						  $"{velocity.X:F2},{velocity.Y:F2},{velocity.Z:F2}";
+
+		// Log to stdout
+		GD.Print(logEntry);
+
+		// Log to CSV file
+		try
+		{
+			logWriter.WriteLine(logEntry);
+			logWriter.Flush(); // Ensure data is written immediately
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"Failed to write to log file: {e.Message}");
+		}
+	}
+
+	public override void _ExitTree()
+	{
+		// Close the log file when the node is removed from the scene
+		if (logWriter != null)
+		{
+			logWriter.Close();
+			logWriter = null;
+		}
 	}
 }
