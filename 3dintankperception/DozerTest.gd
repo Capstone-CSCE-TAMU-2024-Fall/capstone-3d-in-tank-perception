@@ -141,7 +141,7 @@ func calculate_moment_of_inertia():
 	var collision_shape = $CollisionShape3D
 	if collision_shape and collision_shape.shape is BoxShape3D:
 		var box_shape = collision_shape.shape as BoxShape3D
-		var dimensions = box_shape.extents * 2
+		var dimensions = box_shape.size
 		moment_of_inertia.x = (1.0 / 12.0) * mass * (dimensions.y * dimensions.y + dimensions.z * dimensions.z)
 		moment_of_inertia.y = (1.0 / 12.0) * mass * (dimensions.x * dimensions.x + dimensions.z * dimensions.z)
 		moment_of_inertia.z = (1.0 / 12.0) * mass * (dimensions.x * dimensions.x + dimensions.y * dimensions.y)
