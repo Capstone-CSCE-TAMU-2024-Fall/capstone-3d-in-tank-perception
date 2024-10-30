@@ -14,6 +14,11 @@ var info_label: Label
 const LOG_FILE_PATH = "user://tank_log.csv" # note this will be in the user dir (search up where that is for ur machine)
 var log_file: FileAccess
 
+# Forces and Inertia
+var component_forces = {}
+var total_force = Vector3.ZERO
+var moment_of_inertia = Vector3.ZERO
+
 func _ready():
 	
 	# Create a small sphere mesh for the center of mass marker
@@ -31,18 +36,8 @@ func _ready():
 	
 	# Get the existing info_label
 	info_label = $CanvasLayer_UI/infoLabel
-	print_scene_tree()
 	# Initialize logging
 	initialize_logging()
-
-func print_scene_tree():
-	print_node(self, 0)
-
-func print_node(node: Node, indent: int):
-	var indent_string = "  ".repeat(indent)
-	print(indent_string + node.name + " (" + node.get_class() + ")")
-	for child in node.get_children():
-		print_node(child, indent + 1)
 
 func initialize_logging():
 	log_file = FileAccess.open(LOG_FILE_PATH, FileAccess.WRITE)
@@ -61,6 +56,8 @@ func _process(delta):
 	if Input.is_action_just_pressed("toggle_view"):
 		toggle_camera_view()
 	
+	#calculate_forces(delta)
+	calculate_moment_of_inertia()
 	update_info_label()
 	log_data()
 
@@ -101,11 +98,11 @@ func update_info_label():
 		var info_text = "Position: (%.2f, %.2f, %.2f)\n" % [position.x, position.y, position.z]
 		info_text += "Angle Relative to Ground: %.2f\n" % angle_relative_to_ground
 		info_text += "Flipped Over: %s\n" % str(is_flipped)
-		info_text += "Velocity: (%.2f, %.2f, %.2f)" % [velocity.x, velocity.y, velocity.z]
+		info_text += "Velocity: (%.2f, %.2f, %.2f)\n" % [velocity.x, velocity.y, velocity.z]
+		#info_text += "Total Force: (%.2f, %.2f, %.2f)\n" % [total_force.x, total_force.y, total_force.z]
+		info_text += "Moment of Inertia: (%.2f, %.2f, %.2f)" % [moment_of_inertia.x, moment_of_inertia.y, moment_of_inertia.z]
 		
 		info_label.text = info_text
-	else:
-		print("Info label not found")
 
 func log_data():
 	log_file = FileAccess.open(LOG_FILE_PATH, FileAccess.WRITE)
@@ -115,16 +112,40 @@ func log_data():
 		var velocity = linear_velocity
 		var position = global_transform.origin
 		
-		var log_entry = "%s,%.2f,%.2f,%.2f,%.2f,%s,%.2f,%.2f,%.2f" % [
-			Time.get_datetime_string_from_system(),
-			position.x, position.y, position.z,
-			angle_relative_to_ground, str(is_flipped),
-			velocity.x, velocity.y, velocity.z
-		]
+		var log_entry = "%s,%.2f,%.2f,%.2f,%.2f,%s,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f" % [
+		Time.get_datetime_string_from_system(),
+		position.x, position.y, position.z,
+		angle_relative_to_ground, str(is_flipped),
+		velocity.x, velocity.y, velocity.z,
+		#total_force.x, total_force.y, total_force.z,
+		moment_of_inertia.x, moment_of_inertia.y, moment_of_inertia.z
+	]
 		
 		log_file.store_line(log_entry)
 		print(log_entry)  # Log to stdout as well
+#
+#func calculate_forces(delta):
+	#var gravity_force = Vector3(0, -9.8 * mass, 0)
+	#var engine_force = Vector3($LeftWheel.engine_force + $RightWheel.engine_force, 0, 0)
+	#var normal_force = mass * 9.8  # Assuming the car is on a flat surface
+	#var friction_coefficient = 0.3  # Adjust this based on surface materials
+	#var friction_force = Vector3.ZERO
+	#
+	#if linear_velocity.length() > 0.2:
+		#friction_force = -friction_coefficient * normal_force * linear_velocity.normalized()
+	#
+	## Sum all forces
+	#total_force = gravity_force + engine_force + friction_force
 
+func calculate_moment_of_inertia():
+	var collision_shape = $CollisionShape3D
+	if collision_shape and collision_shape.shape is BoxShape3D:
+		var box_shape = collision_shape.shape as BoxShape3D
+		var dimensions = box_shape.extents * 2
+		moment_of_inertia.x = (1.0 / 12.0) * mass * (dimensions.y * dimensions.y + dimensions.z * dimensions.z)
+		moment_of_inertia.y = (1.0 / 12.0) * mass * (dimensions.x * dimensions.x + dimensions.z * dimensions.z)
+		moment_of_inertia.z = (1.0 / 12.0) * mass * (dimensions.x * dimensions.x + dimensions.y * dimensions.y)
+	
 func _exit_tree():
 	if log_file:
 		log_file.close()

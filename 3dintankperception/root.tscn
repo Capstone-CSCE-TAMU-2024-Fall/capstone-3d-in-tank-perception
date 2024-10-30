@@ -27,9 +27,6 @@ size = Vector3(1, 1.39648, 1)
 [node name="m27" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.328345, 16.053)
 script = ExtResource("1_jrn3n")
-Speed = null
-FallAcceleration = null
-RotationSpeed = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="m27"]
 shape = SubResource("CapsuleShape3D_6fdt1")
