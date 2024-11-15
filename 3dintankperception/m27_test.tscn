@@ -1,14 +1,14 @@
 [gd_scene load_steps=18 format=3 uid="uid://7iqalfa2pels"]
 
-[ext_resource type="Script" path="res://m27_test.gd" id="1_um0wl"]
+[ext_resource type="Script" path="res://scripts/m27_test.gd" id="1_um0wl"]
 [ext_resource type="ArrayMesh" uid="uid://si04ha1jivla" path="res://models/m27_tank_component.obj" id="1_utg0b"]
 [ext_resource type="ArrayMesh" uid="uid://fft3ev7l7kcs" path="res://models/m27_body_component.obj" id="2_rif2h"]
-[ext_resource type="Script" path="res://left_test_tread.gd" id="3_42qme"]
-[ext_resource type="Script" path="res://m27_body_movement.gd" id="4_2jmc0"]
+[ext_resource type="Script" path="res://scripts/left_test_tread.gd" id="3_42qme"]
+[ext_resource type="Script" path="res://scripts/m27_body_movement.gd" id="4_2jmc0"]
 [ext_resource type="ArrayMesh" uid="uid://ck2erpfmny2rm" path="res://models/m27_tread.obj" id="4_8n4qa"]
 [ext_resource type="ArrayMesh" uid="uid://dca6k7xlp5657" path="res://models/m27_arm_component.obj" id="7_rsby5"]
-[ext_resource type="Script" path="res://m27_arm_movement.gd" id="8_cukpi"]
-[ext_resource type="Script" path="res://camera_3d.gd" id="9_roaii"]
+[ext_resource type="Script" path="res://scripts/m27_arm_movement.gd" id="8_cukpi"]
+[ext_resource type="Script" path="res://scripts/camera_3d.gd" id="9_roaii"]
 
 [sub_resource type="Curve3D" id="Curve3D_y5oba"]
 _data = {

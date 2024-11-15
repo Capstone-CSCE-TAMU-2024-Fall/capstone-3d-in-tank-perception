@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=3 uid="uid://bdwn67jvg8r4j"]
 
-[ext_resource type="Script" path="res://DozerTest.gd" id="1_4qhsr"]
+[ext_resource type="Script" path="res://scripts/DozerTest.gd" id="1_4qhsr"]
 [ext_resource type="PackedScene" uid="uid://ce6dbtmv37r1" path="res://models/m27_body.blend" id="2_ibfkx"]
-[ext_resource type="Script" path="res://left_tread.gd" id="3_e2c6f"]
+[ext_resource type="Script" path="res://scripts/left_tread.gd" id="3_e2c6f"]
 [ext_resource type="PackedScene" uid="uid://df0l1180hmt0x" path="res://models/m27_tread.blend" id="4_de32s"]
-[ext_resource type="Script" path="res://right_tread.gd" id="5_l0q7c"]
+[ext_resource type="Script" path="res://scripts/right_tread.gd" id="5_l0q7c"]
 [ext_resource type="PackedScene" uid="uid://de0ripd3866nb" path="res://models/arm.glb" id="6_eg5dq"]
 [ext_resource type="Script" path="res://models/arm.gd" id="7_to8d8"]
-[ext_resource type="Script" path="res://camera_3d.gd" id="8_65ncm"]
+[ext_resource type="Script" path="res://scripts/camera_3d.gd" id="8_65ncm"]
 
 [sub_resource type="Curve3D" id="Curve3D_1qq5d"]
 _data = {

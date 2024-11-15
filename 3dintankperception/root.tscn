@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dgv6kkqhwsdti"]
+[gd_scene load_steps=10 format=3 uid="uid://b4uisoahuukp6"]
 
-[ext_resource type="Script" path="res://M27.cs" id="1_jrn3n"]
+[ext_resource type="Script" path="res://scripts/M27.cs" id="1_mi47h"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6fdt1"]
 
@@ -26,7 +26,7 @@ size = Vector3(1, 1.39648, 1)
 
 [node name="m27" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.328345, 16.053)
-script = ExtResource("1_jrn3n")
+script = ExtResource("1_mi47h")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="m27"]
 shape = SubResource("CapsuleShape3D_6fdt1")

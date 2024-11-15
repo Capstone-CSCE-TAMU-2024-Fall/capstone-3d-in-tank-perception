@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://ug3r4qkblg2x"]
+[gd_scene load_steps=2 format=3 uid="uid://dn28umukao6i7"]
 
-[ext_resource type="Script" path="res://config_menu.gd" id="1_27rre"]
+[ext_resource type="Script" path="res://scripts/config_menu.gd" id="1_cnvtr"]
 
 [node name="ConfigMenu" type="Control"]
 layout_mode = 3
@@ -8,7 +8,7 @@ anchors_preset = 0
 scale = Vector2(0.994871, 1)
 size_flags_horizontal = 0
 size_flags_vertical = 0
-script = ExtResource("1_27rre")
+script = ExtResource("1_cnvtr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(300, 200)
